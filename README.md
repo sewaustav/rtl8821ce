@@ -5,13 +5,20 @@
 
 ## Changes from upstream
 
-The following fixes were applied to support newer kernels:
+| Change | Kernels |
+|---|---|
+| `pppoe_hdr->tag`, `pppoe_tag->tag_data` replaced with pointer arithmetic | all (equivalent on old kernels) |
+| `strncpy` → `strscpy` | all |
+| cfg80211 callbacks take `wireless_dev *` (`add_key`, `get_key`, `del_key`, `set_default_mgmt_key`, `*_station`), `cfg80211_new_sta`/`cfg80211_del_sta` | 7.1+ |
+| NAT25 IPX/AppleTalk branch disabled (`struct elapaarp` is gone from kernel headers) | 7.2+ |
+| `remain_on_channel` gets `rx_addr` parameter | 7.2+ |
+| `remain_on_channel` / `mgmt_tx`: `cookie` passed by value | 7.3+ |
 
-- **`pppoe_hdr.tag` and `pppoe_tag.tag_data`** — removed from kernel space in 7.x, replaced with pointer arithmetic
-- **cfg80211 callbacks** — `net_device *` → `wireless_dev *` for `add_key`, `get_key`, `del_key`, `set_default_mgmt_key`, `get_station`, `add_station`, `del_station`, `change_station`, `dump_station`
-- **AppleTalk AARP** (`struct elapaarp`) — removed from kernel space in 7.2, wrapped in `#ifdef CONFIG_ATALK`
-- **`strncpy`** → `strscpy` (deprecated in newer kernels)
-- **`remain_on_channel`** — new `const u8 *rx_addr` parameter and return type changed from `s32` to `int`
+### Testing status
+- Compiled against 6.18.63-lts and 7.3.4.
+- Used as a regular Wi-Fi client on 7.3.4.
+- The 7.1 and 7.2 branches are inferred from build failures and upstream notes, not compiled here.
+- P2P / Wi-Fi Direct with the 7.3 cookie change is untested.
 
 ## Intent
 Targeting Linux 4.14+ with active fixes for kernels up to 7.x. Developed and tested on Arch Linux.

@@ -892,7 +892,7 @@ int nat25_db_handle(_adapter *priv, struct sk_buff *skb, int method)
 		}
 	}
 
-#ifdef CONFIG_ATALK
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(7, 2, 0))
 	/*---------------------------------------------------*/
 	/*         Handle IPX and Apple Talk frame          */
 	/*---------------------------------------------------*/
@@ -1120,7 +1120,7 @@ int nat25_db_handle(_adapter *priv, struct sk_buff *skb, int method)
 
 		return -1;
 	}
-#endif /* CONFIG_ATALK */
+#endif /* < 7.2 */
 
 	/*---------------------------------------------------*/
 	/*                Handle PPPoE frame                */
